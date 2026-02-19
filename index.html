@@ -67,16 +67,19 @@
 
         /* MOBILE ADJUSTMENTS */
         @media (max-width: 768px) {
-            /* shrink sections so multiple appear on screen */
+            /* shrink sections to show 3 per screen */
             section {
-                height: 60vh; /* adjust to show ~1.5 sections per screen */
+                height: 33.33vh; /* three sections per screen */
             }
 
-            /* images fully visible, no cropping */
+            /* images fully visible, white letterbox */
             section img {
                 object-fit: contain;
                 object-position: center;
-                background-color: black; /* optional */
+                background-color: white; /* white letterbox */
+                width: 100%;
+                height: 100%;
+                display: block;
             }
 
             /* stars overlay still covers viewport */
@@ -177,6 +180,3 @@
 </body>
 
 </html>
-
-
-
