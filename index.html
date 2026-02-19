@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+
+    <!DOCTYPE html>
 <html>
 
 <head>
     <title>Debut Invitation</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <style>
         html {
             scroll-behavior: smooth;
@@ -17,15 +18,17 @@
         }
 
         section {
-            height: 100vh;
-            scroll-snap-align: start;
+    width: 100%;
+    height: 100vh;      /* full screen on any device */
+    position: relative;
+    z-index: 1;
         }
 
         img {
-            width: 100%;
-            height: 100vh;
-            object-fit: cover;
-            display: block;
+             width: 100%;
+    height: 100vh;      /* full viewport height */
+    object-fit: cover;  /* keeps aspect ratio, no stretching */
+    display: block;
         }
 #stars {
     position: fixed;
@@ -52,8 +55,22 @@ section.visible {
     opacity: 1;             /* fade in */
     transform: translateY(0); /* slide into place */
 }
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    overflow-x: hidden;  /* prevent horizontal scroll */
+}
+
+section {
+    scroll-snap-align: start;
+}
 
     </style>
+
+
 </head>
 
 <body>
