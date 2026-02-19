@@ -1,198 +1,158 @@
-
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 
 <head>
     <title>Debut Invitation</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Mobile viewport meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <style>
+        /* Reset & general */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         html {
             scroll-behavior: smooth;
         }
 
         body {
             margin: 0;
-            scroll-snap-type: y mandatory;
+            overflow-x: hidden; /* prevent horizontal scroll */
             overflow-y: scroll;
-            height: 100vh;
+            height: 100%;
+            scroll-snap-type: y mandatory;
         }
 
+        /* Sections full screen */
         section {
-    width: 100%;
-    height: 100vh;      /* full screen on any device */
-    position: relative;
-    z-index: 1;
+            width: 100%;
+            height: 100dvh; /* dynamic viewport height for mobile */
+            position: relative;
+            z-index: 1;
+            scroll-snap-align: start;
+
+            /* Fade-in effect */
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s ease, transform 1s ease;
         }
 
-        img {
-             width: 100%;
-    height: 100vh;      /* full viewport height */
-    object-fit: cover;  /* keeps aspect ratio, no stretching */
-    display: block;
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
-#stars {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 10; /* put it above images */
-    pointer-events: none; /* so you can still scroll and click */
-}
-section {
-    position: relative;
-    z-index: 1; /* images stay below stars */
-}
-section {
-    position: relative;
-    z-index: 1;
-    opacity: 0;             /* start invisible */
-    transform: translateY(30px);  /* start slightly lower */
-    transition: opacity 1s ease, transform 1s ease;  /* smooth fade & slide */
-}
 
-section.visible {
-    opacity: 1;             /* fade in */
-    transform: translateY(0); /* slide into place */
-}
-html {
-    scroll-behavior: smooth;
-}
+        /* Section images */
+        section img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* maintain aspect ratio, cover section */
+            display: block;
+        }
 
-body {
-    margin: 0;
-    overflow-x: hidden;  /* prevent horizontal scroll */
-}
-
-section {
-    scroll-snap-align: start;
-}
-
+        /* Sparkling stars overlay */
+        #stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100dvh; /* match dynamic viewport */
+            z-index: 10; /* above images */
+            pointer-events: none; /* allow scrolling & clicking */
+        }
     </style>
-
-
 </head>
 
 <body>
- <!-- Sparkling stars canvas -->
+    <!-- Sparkling stars canvas -->
     <canvas id="stars"></canvas>
 
-    <!-- Section 1 -->
-    <section>
-        <img src="bg.png">
-    </section>
+    <!-- Sections -->
+    <section><img src="bg.png"></section>
+    <section><img src="photo2.png"></section>
+    <section><img src="Candles.png"></section>
+    <section><img src="Roses.png"></section>
+    <section><img src="Bills & Sweets.png"></section>
+    <section><img src="Treasures.png"></section>
+    <section><img src="Infos.png"></section>
+    <section><img src="photo3.png"></section>
 
-    <!-- Section 2 -->
-    <section>
-        <img src="photo2.png">
-    </section>
+    <!-- Stars JS -->
+    <script>
+        const canvas = document.getElementById('stars');
+        const ctx = canvas.getContext('2d');
+        let w = canvas.width = window.innerWidth;
+        let h = canvas.height = window.innerHeight;
 
-    <!-- Section 3 -->
-    <section>
-        <img src="Candles.png">
-    </section>
+        class Star {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * w;
+                this.y = Math.random() * h;
+                this.r = Math.random() * 2 + 0.5;
+                this.alpha = Math.random();
+                this.dx = (Math.random() - 0.5) * 0.2;
+                this.dy = (Math.random() - 0.5) * 0.2;
+                this.da = (Math.random() - 0.5) * 0.01;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255,255,255,${this.alpha})`;
+                ctx.shadowBlur = 5;
+                ctx.shadowColor = 'white';
+                ctx.fill();
 
-    <!-- Section 4 -->
-    <section>
-        <img src="Roses.png">
-    </section>
+                this.x += this.dx;
+                this.y += this.dy;
 
-    <!-- Section 5 -->
-    <section>
-        <img src="Bills & Sweets.png">
-    </section>
+                this.alpha += this.da;
+                if (this.alpha <= 0 || this.alpha > 1) this.da = -this.da;
 
-    <!-- Section 6 -->
-    <section>
-        <img src="Treasures.png">
-    </section>
-
-    <!-- Section 7 -->
-    <section>
-        <img src="Infos.png">
-    </section>
-
-    <!-- Section 8 -->
-    <section>
-        <img src="photo3.png">
-    </section>
-
-<script>
-const canvas = document.getElementById('stars');
-const ctx = canvas.getContext('2d');
-let w = canvas.width = window.innerWidth;
-let h = canvas.height = window.innerHeight;
-
-class Star {
-    constructor() {
-        this.reset();
-    }
-    reset() {
-        this.x = Math.random() * w;
-        this.y = Math.random() * h;
-        this.r = Math.random() * 2 + 0.5;   // size
-        this.alpha = Math.random();          // brightness
-        this.dx = (Math.random() - 0.5) * 0.2; // faster horizontal drift
-        this.dy = (Math.random() - 0.5) * 0.2; // faster vertical drift
-        this.da = (Math.random() - 0.5) * 0.01; // faster twinkle
-    }
-    draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.r, 0, Math.PI*2);
-        ctx.fillStyle = `rgba(255,255,255,${this.alpha})`;
-        ctx.shadowBlur = 5;
-        ctx.shadowColor = 'white';
-        ctx.fill();
-
-        // update position
-        this.x += this.dx;
-        this.y += this.dy;
-
-        // update twinkle
-        this.alpha += this.da;
-        if(this.alpha <= 0 || this.alpha > 1) this.da = -this.da;
-
-        // reset if offscreen
-        if(this.x < 0 || this.x > w || this.y < 0 || this.y > h) this.reset();
-    }
-}
-
-const stars = [];
-const numStars = 150;
-for(let i=0;i<numStars;i++) stars.push(new Star());
-
-function animate() {
-    ctx.clearRect(0,0,w,h);
-    stars.forEach(star => star.draw());
-    requestAnimationFrame(animate);
-}
-
-animate();
-
-window.addEventListener('resize', () => {
-    w = canvas.width = window.innerWidth;
-    h = canvas.height = window.innerHeight;
-});
-</script>
-<script>
-// Fade in sections when they enter viewport
-const sections = document.querySelectorAll('section');
-
-function revealSections() {
-    const triggerBottom = window.innerHeight * 0.9; // adjust when fade starts
-    sections.forEach(section => {
-        const sectionTop = section.getBoundingClientRect().top;
-        if (sectionTop < triggerBottom) {
-            section.classList.add('visible');
+                if (this.x < 0 || this.x > w || this.y < 0 || this.y > h) this.reset();
+            }
         }
-    });
-}
 
-window.addEventListener('scroll', revealSections);
-window.addEventListener('load', revealSections); // fade first section immediately
-</script>
+        const stars = [];
+        const numStars = 150;
+        for (let i = 0; i < numStars; i++) stars.push(new Star());
 
+        function animate() {
+            ctx.clearRect(0, 0, w, h);
+            stars.forEach(star => star.draw());
+            requestAnimationFrame(animate);
+        }
 
+        animate();
+
+        window.addEventListener('resize', () => {
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
+        });
+    </script>
+
+    <!-- Fade-in JS -->
+    <script>
+        const sections = document.querySelectorAll('section');
+
+        function revealSections() {
+            const triggerBottom = window.innerHeight * 0.9;
+            sections.forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                if (sectionTop < triggerBottom) {
+                    section.classList.add('visible');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', revealSections);
+        window.addEventListener('load', revealSections);
+    </script>
 </body>
 
 </html>
