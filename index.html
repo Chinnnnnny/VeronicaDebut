@@ -153,6 +153,22 @@
         window.addEventListener('scroll', revealSections);
         window.addEventListener('load', revealSections);
     </script>
+    <script>
+function setSectionHeights() {
+    const vh = window.innerHeight;
+    document.querySelectorAll('section').forEach(section => {
+        section.style.height = vh + 'px';
+    });
+    // also adjust stars canvas
+    document.getElementById('stars').style.height = vh + 'px';
+}
+
+// Run on load and resize
+window.addEventListener('load', setSectionHeights);
+window.addEventListener('resize', setSectionHeights);
+</script>
+
 </body>
 
 </html>
+
